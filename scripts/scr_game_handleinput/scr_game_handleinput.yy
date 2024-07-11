@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"scr_game_handleinput",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_game_handleinput",
+  "parent":{
+    "name":"game",
+    "path":"folders/Scripts/game.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

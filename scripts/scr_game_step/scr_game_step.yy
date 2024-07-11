@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"scr_game_step",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_game_step",
+  "parent":{
+    "name":"game",
+    "path":"folders/Scripts/game.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

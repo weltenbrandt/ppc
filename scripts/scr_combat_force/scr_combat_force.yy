@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"scr_combat_force",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_combat_force",
+  "parent":{
+    "name":"combat",
+    "path":"folders/Scripts/combat.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
