@@ -170,13 +170,13 @@ function scr_player_init()
 	player[id_player_data_dir] = 0;
 	player[id_player_data_roll_duration] = 30;
 	
-	player[id_player_data_attack1_duration] = 20;
-	player[id_player_data_attack1_combothreshold_min] = 0.6;
+	player[id_player_data_attack1_duration] = 22;
+	player[id_player_data_attack1_combothreshold_min] = 0.45;
 	player[id_player_data_attack1_combothreshold_max] = 0.95;
 	player[id_player_data_attack1_hitframe] = 5;
 	
-	player[id_player_data_attack2_duration] = 20;
-	player[id_player_data_attack2_combothreshold_min] = 0.6;
+	player[id_player_data_attack2_duration] = 22;
+	player[id_player_data_attack2_combothreshold_min] = 0.45;
 	player[id_player_data_attack2_combothreshold_max] = 0.95;
 	player[id_player_data_attack2_hitframe] = 5;
 	

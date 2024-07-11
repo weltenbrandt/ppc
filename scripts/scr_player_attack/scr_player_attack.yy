@@ -1,13 +1,11 @@
 {
-  "$GMScript":"",
-  "%Name":"scr_player_attack",
-  "isCompatibility":false,
-  "isDnD":false,
-  "name":"scr_player_attack",
-  "parent":{
-    "name":"player",
-    "path":"folders/Scripts/player.yy",
+  "resourceType": "GMScript",
+  "resourceVersion": "1.0",
+  "name": "scr_player_attack",
+  "isCompatibility": false,
+  "isDnD": false,
+  "parent": {
+    "name": "player",
+    "path": "folders/Scripts/player.yy",
   },
-  "resourceType":"GMScript",
-  "resourceVersion":"2.0",
 }
