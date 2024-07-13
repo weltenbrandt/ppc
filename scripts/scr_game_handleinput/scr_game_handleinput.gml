@@ -10,7 +10,7 @@ function scr_game_handleinput()
 	
 	key[id_key_interact] = keyboard_check_pressed(key_interact);
 	key[id_key_cancel] = keyboard_check_pressed(key_cancel);
-	key[id_key_inventory] = keyboard_check_pressed(key_inventory);
+	key[id_key_inventory] = keyboard_check(key_inventory);
 	key[id_key_assign] = keyboard_check_pressed(key_assign);
 	key[id_key_shoulder_left] = keyboard_check_pressed(key_shoulder_left);
 	key[id_key_shoulder_right] = keyboard_check_pressed(key_shoulder_right);
@@ -77,11 +77,9 @@ function scr_game_handleinput()
 			// Set a reasonable dead zone
 			gamepad_set_axis_deadzone(i, 0.2);
 			
-			
-			
 	        key[id_key_interact] = gamepad_button_check_pressed(i, keygp_interact);
 	        key[id_key_cancel] = gamepad_button_check_pressed(i, keygp_cancel);
-	        key[id_key_inventory] = gamepad_button_check_pressed(i, keygp_inventory);
+	        key[id_key_inventory] = gamepad_button_check(i, keygp_inventory);
 			key[id_key_assign] = gamepad_button_check_pressed(i, keygp_assign);
 			key[id_key_shoulder_left] = gamepad_button_check_pressed(i, keygp_shoulder_left);
 			key[id_key_shoulder_right] = gamepad_button_check_pressed(i, keygp_shoulder_right);

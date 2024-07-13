@@ -10,14 +10,14 @@
   "bitRate": 128,
   "compression": 0,
   "conversionMode": 0,
-  "duration": 0.282479,
+  "duration": 0.75,
   "parent": {
     "name": "Sounds",
     "path": "folders/Sounds.yy",
   },
   "preload": false,
   "sampleRate": 44100,
-  "soundFile": "snd_step_2.ogg",
+  "soundFile": "snd_step_2.wav",
   "type": 0,
   "volume": 1.0,
 }

@@ -25,6 +25,9 @@ function scr_player_movement()
 	{
 		player_attack_punish_timer = max(player_attack_punish_timer - 1,0);
 	}
+	
+	if (player_shoot_timer > 0) { player_shoot_timer = max(player_shoot_timer - 1,0); }
+	if (player_block_timer > 0) { player_block_timer = max(player_block_timer - 1,0); }
 	#endregion
 	
 	#region STATUS
@@ -34,6 +37,10 @@ function scr_player_movement()
 	if (player_roll_timer > 0) { _rolling = true; player_mspd *= 0.5; }
 	var _attacking = false;
 	if (player_attack_timer > 0) { _attacking = true; player_mspd *= 0.25; }
+	var _blocking = false;
+	if (player_block_timer > 0) { _blocking = true; player_mspd *= 0.25; }
+	var _shooting = false;
+	if (player_shoot_timer > 0) { _shooting = true; player_mspd *= 0.25; }
 	var _walking = false; var _running = false;
 	if (_attacking == false && _rolling == false)
 	{
@@ -154,14 +161,14 @@ function scr_player_movement()
 		}
 	}
 	
-	if (_rolling == false && _attacking == false && key[id_key_interact] == true)
+	if (_rolling == false && _attacking == false && _shooting == false && _blocking == false && key[id_key_interact] == true)
 	{
 		player_roll_timer = player[id_player_data_roll_duration];
 		obj_player.image_index = 0;
 		scr_combat_force(0,obj_player,3,player[id_player_data_dir],player[id_player_data_friction]);
 		scr_sfx_play(ctl.player[id_player_data_snds_roll]);
 	}
-	if ( _rolling == false && key[id_key_assign] == true && player_attack_punish_timer == 0) 
+	if ( _rolling == false && _shooting == false && _blocking == false && key[id_key_assign] == true && player_attack_punish_timer == 0) 
 	{
 		 var _perform = false;
 		 if (player_attack_timer > 0) 
@@ -215,7 +222,7 @@ function scr_player_movement()
 				player_attack_timer = ctl.player[id_player_data_attack1_duration];
 				player_attack_hit = false;
 				obj_player.image_index = 0;
-				scr_combat_force(0, obj_player, 2, player[id_player_data_dir], player[id_player_data_friction]);
+				scr_combat_force(0, obj_player, 1.5, player[id_player_data_dir], player[id_player_data_friction]);
 				scr_sfx_play(ctl.player[id_player_data_snds_attack1]);
 			}
 			else if (player_attack_performing == 1)
@@ -223,9 +230,32 @@ function scr_player_movement()
 				player_attack_timer = ctl.player[id_player_data_attack1_duration];
 				player_attack_hit = false;
 				obj_player.image_index = 0;
-				scr_combat_force(0, obj_player, 2, player[id_player_data_dir], player[id_player_data_friction]);
+				scr_combat_force(0, obj_player, 1.5, player[id_player_data_dir], player[id_player_data_friction]);
 				scr_sfx_play(ctl.player[id_player_data_snds_attack2]);
 			}
+		}
+	}
+	
+	if (_attacking == false && _rolling == false && _shooting == false && _blocking == false && key[id_key_inventory] == true) 
+	{
+		player_shoot_timer = ctl.player[id_player_data_shoot_timer];
+		player_shoot_release = false;
+		obj_player.image_index = 0;
+		scr_sfx_play(ctl.player[id_player_data_snds_shoot]);
+	}
+	
+	if (_attacking == false && _rolling == false && _shooting == false && _blocking == false && key[id_key_cancel] == true) 
+	{
+		player_block_timer = ctl.player[id_player_data_block_timer];
+		obj_player.image_index = 0;
+	}
+	
+	if (_shooting == true)
+	{
+		if (obj_player.image_index >= player[id_player_data_shoot_releaseframe] && player_shoot_release == false)
+		{
+			player_shoot_release = true;
+			scr_player_proj(0,player[id_player_data_dir]);
 		}
 	}
 	
@@ -262,6 +292,8 @@ function scr_player_movement()
 	var _spr_roll = noone;
 	var _spr_attack1 = noone;
 	var _spr_attack2 = noone;
+	var _spr_shoot = noone;
+	var _spr_block = noone;
 	// Update position
 	with (obj_player)
 	{
@@ -277,6 +309,8 @@ function scr_player_movement()
 				_spr_roll = ctl.player[id_player_data_spr_roll_right];
 				_spr_attack1 = ctl.player[id_player_data_spr_attack1_right];
 				_spr_attack2 = ctl.player[id_player_data_spr_attack2_right];
+				_spr_shoot = ctl.player[id_player_data_spr_shoot_right];
+				_spr_block = ctl.player[id_player_data_spr_block_right];
 			break;
 			
 			case 45:
@@ -287,6 +321,8 @@ function scr_player_movement()
 				_spr_roll = ctl.player[id_player_data_spr_roll_upright];
 				_spr_attack1 = ctl.player[id_player_data_spr_attack1_upright];
 				_spr_attack2 = ctl.player[id_player_data_spr_attack2_upright];
+				_spr_shoot = ctl.player[id_player_data_spr_shoot_upright];
+				_spr_block = ctl.player[id_player_data_spr_block_upright];
 			break;
 			
 			case 90:
@@ -297,6 +333,8 @@ function scr_player_movement()
 				_spr_roll = ctl.player[id_player_data_spr_roll_up];
 				_spr_attack1 = ctl.player[id_player_data_spr_attack1_up];
 				_spr_attack2 = ctl.player[id_player_data_spr_attack2_up];
+				_spr_shoot = ctl.player[id_player_data_spr_shoot_up];
+				_spr_block = ctl.player[id_player_data_spr_block_up];
 			break;
 			
 			case 135:
@@ -307,6 +345,8 @@ function scr_player_movement()
 				_spr_roll = ctl.player[id_player_data_spr_roll_upleft];
 				_spr_attack1 = ctl.player[id_player_data_spr_attack1_upleft];
 				_spr_attack2 = ctl.player[id_player_data_spr_attack2_upleft];
+				_spr_shoot = ctl.player[id_player_data_spr_shoot_upleft];
+				_spr_block = ctl.player[id_player_data_spr_block_upleft];
 			break;
 			
 			case 180:
@@ -317,6 +357,8 @@ function scr_player_movement()
 				_spr_roll = ctl.player[id_player_data_spr_roll_left];
 				_spr_attack1 = ctl.player[id_player_data_spr_attack1_left];
 				_spr_attack2 = ctl.player[id_player_data_spr_attack2_left];
+				_spr_shoot = ctl.player[id_player_data_spr_shoot_left];
+				_spr_block = ctl.player[id_player_data_spr_block_left];
 				
 			break;
 			
@@ -328,6 +370,8 @@ function scr_player_movement()
 				_spr_roll = ctl.player[id_player_data_spr_roll_downleft];
 				_spr_attack1 = ctl.player[id_player_data_spr_attack1_downleft];
 				_spr_attack2 = ctl.player[id_player_data_spr_attack2_downleft];
+				_spr_shoot = ctl.player[id_player_data_spr_shoot_downleft];
+				_spr_block = ctl.player[id_player_data_spr_block_downleft];
 			break;
 			
 			case 270:
@@ -338,6 +382,8 @@ function scr_player_movement()
 				_spr_roll = ctl.player[id_player_data_spr_roll_down];
 				_spr_attack1 = ctl.player[id_player_data_spr_attack1_down];
 				_spr_attack2 = ctl.player[id_player_data_spr_attack2_down];
+				_spr_shoot = ctl.player[id_player_data_spr_shoot_down];
+				_spr_block = ctl.player[id_player_data_spr_block_down];
 			break;
 			
 			case 315:
@@ -348,12 +394,22 @@ function scr_player_movement()
 				_spr_roll = ctl.player[id_player_data_spr_roll_downright];
 				_spr_attack1 = ctl.player[id_player_data_spr_attack1_downright];
 				_spr_attack2 = ctl.player[id_player_data_spr_attack2_downright];
+				_spr_shoot = ctl.player[id_player_data_spr_shoot_downright];
+				_spr_block = ctl.player[id_player_data_spr_block_downright];
 			break;
 		}
 		if (_attacking == true)
 		{
 			if (ctl.player_attack_performing == 0) { sprite_index = _spr_attack1; }
 			else if (ctl.player_attack_performing == 1) { sprite_index = _spr_attack2; }
+		}
+		else if (_shooting == true)
+		{
+			sprite_index = _spr_shoot;
+		}
+		else if (_blocking == true)
+		{
+			sprite_index = _spr_block;
 		}
 		else if (_rolling == true)
 		{

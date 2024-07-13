@@ -3,5 +3,5 @@
 function scr_ui_init()
 {
 	#macro id_ui_sounds_cursor 0
-	ui[id_ui_sounds_cursor] = [[snd_ui_cursor],1.0];
+	ui[id_ui_sounds_cursor] = [[snd_ui_cursor1,snd_ui_cursor2,snd_ui_cursor3],0.35];
 }

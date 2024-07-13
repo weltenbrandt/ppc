@@ -65,33 +65,58 @@ function scr_player_init()
 	#macro id_player_data_spr_attack2_upleft 54
 	#macro id_player_data_spr_attack2_upright 55
 	
-	#macro id_player_data_mspd 56
-	#macro id_player_data_acel 57
-	#macro id_player_data_friction 58
-	#macro id_player_data_hsp 59
-	#macro id_player_data_vsp 60
-	#macro id_player_data_dir 61
-	#macro id_player_data_roll_duration 62
+	#macro id_player_data_spr_shoot_down 56
+	#macro id_player_data_spr_shoot_downleft 57
+	#macro id_player_data_spr_shoot_downright 58
+	#macro id_player_data_spr_shoot_left 59
+	#macro id_player_data_spr_shoot_right 60
+	#macro id_player_data_spr_shoot_up 61
+	#macro id_player_data_spr_shoot_upleft 62
+	#macro id_player_data_spr_shoot_upright 63
 	
-	#macro id_player_data_attack_punish 63
+	#macro id_player_data_spr_block_down 64
+	#macro id_player_data_spr_block_downleft 65
+	#macro id_player_data_spr_block_downright 66
+	#macro id_player_data_spr_block_left 67
+	#macro id_player_data_spr_block_right 68
+	#macro id_player_data_spr_block_up 69
+	#macro id_player_data_spr_block_upleft 70
+	#macro id_player_data_spr_block_upright 71
 	
-	#macro id_player_data_attack1_duration 64
-	#macro id_player_data_attack1_combothreshold_min 65
-	#macro id_player_data_attack1_combothreshold_max 66
-	#macro id_player_data_attack1_hitframe 67
+	#macro id_player_data_mspd 72
+	#macro id_player_data_acel 73
+	#macro id_player_data_friction 74
+	#macro id_player_data_hsp 75
+	#macro id_player_data_vsp 76
+	#macro id_player_data_dir 77
+	#macro id_player_data_roll_duration 78
 	
-	#macro id_player_data_attack2_duration 68
-	#macro id_player_data_attack2_combothreshold_min 69
-	#macro id_player_data_attack2_combothreshold_max 70
-	#macro id_player_data_attack2_hitframe 71
+	#macro id_player_data_attack_punish 79
 	
-	#macro id_player_data_snds_step 72
-	#macro id_player_data_snds_attack1 73
-	#macro id_player_data_snds_attack2 74
-	#macro id_player_data_snds_roll 75
-	#macro id_player_data_snds_runstop 76
+	#macro id_player_data_attack1_duration 80
+	#macro id_player_data_attack1_combothreshold_min 81
+	#macro id_player_data_attack1_combothreshold_max 82
+	#macro id_player_data_attack1_hitframe 83
 	
-	#macro id_player_data_runstop_timer 77
+	#macro id_player_data_attack2_duration 84
+	#macro id_player_data_attack2_combothreshold_min 85
+	#macro id_player_data_attack2_combothreshold_max 86
+	#macro id_player_data_attack2_hitframe 87
+	
+	#macro id_player_data_snds_step 88
+	#macro id_player_data_snds_attack1 89
+	#macro id_player_data_snds_attack2 90
+	#macro id_player_data_snds_roll 91
+	#macro id_player_data_snds_runstop 92
+	
+	#macro id_player_data_runstop_timer 93
+	
+	#macro id_player_data_shoot_timer 94
+	#macro id_player_data_block_timer 95
+	#macro id_player_data_shoot_releaseframe 96
+	
+	#macro id_player_data_snds_shoot 97
+	#macro id_player_data_snds_block 98
 	
 	player[id_player_data_spr_idle_down] = spr_player_idle_down;
 	player[id_player_data_spr_idle_downleft] = spr_player_idle_downleft;
@@ -156,11 +181,31 @@ function scr_player_init()
 	player[id_player_data_spr_attack2_upleft] = spr_player_attack2_upleft;
 	player[id_player_data_spr_attack2_upright] = spr_player_attack2_upright;
 	
-	player[id_player_data_snds_step] = [[snd_step_1,snd_step_2,snd_step_3,snd_step_4,snd_step_5,snd_step_6,snd_step_7,snd_step_8,snd_step_9,snd_step_10],0.2];
-	player[id_player_data_snds_attack1] = [[snd_attack_1],1.0];
-	player[id_player_data_snds_attack2] = [[snd_attack_2],1.0];
-	player[id_player_data_snds_roll] = [[snd_roll],0.5];
-	player[id_player_data_snds_runstop] = [[snd_runstop_1,snd_runstop_2,snd_runstop_3,snd_runstop_4,snd_runstop_5,snd_runstop_6,snd_runstop_7,snd_runstop_8],0.4];
+	player[id_player_data_spr_shoot_down] = spr_player_shoot_down;
+	player[id_player_data_spr_shoot_downleft] = spr_player_shoot_downleft;
+	player[id_player_data_spr_shoot_downright] = spr_player_shoot_downright;
+	player[id_player_data_spr_shoot_left] = spr_player_shoot_left;
+	player[id_player_data_spr_shoot_right] = spr_player_shoot_right;
+	player[id_player_data_spr_shoot_up] = spr_player_shoot_up;
+	player[id_player_data_spr_shoot_upleft] = spr_player_shoot_upleft;
+	player[id_player_data_spr_shoot_upright] = spr_player_shoot_upright;
+	
+	player[id_player_data_spr_block_down] = spr_player_block_down;
+	player[id_player_data_spr_block_downleft] = spr_player_block_downleft;
+	player[id_player_data_spr_block_downright] = spr_player_block_downright;
+	player[id_player_data_spr_block_left] = spr_player_block_left;
+	player[id_player_data_spr_block_right] = spr_player_block_right;
+	player[id_player_data_spr_block_up] = spr_player_block_up;
+	player[id_player_data_spr_block_upleft] = spr_player_block_upleft;
+	player[id_player_data_spr_block_upright] = spr_player_block_upright;
+	
+	player[id_player_data_snds_step] = [[snd_step_1,snd_step_2,snd_step_3,snd_step_4,snd_step_5],1.0];
+	player[id_player_data_snds_attack1] = [[snd_attack_1],0.25];
+	player[id_player_data_snds_attack2] = [[snd_attack_2],0.25];
+	player[id_player_data_snds_roll] = [[snd_roll1,snd_roll2],1.0];
+	player[id_player_data_snds_runstop] = [[snd_runstop_1,snd_runstop_2,snd_runstop_3,snd_runstop_4,snd_runstop_5,snd_runstop_6,snd_runstop_7,snd_runstop_8],0.15];
+	player[id_player_data_snds_shoot] = [[snd_shoot],0.35];
+	player[id_player_data_snds_block] = [[noone],0.2];
 	
 	player[id_player_data_mspd] = 2;
 	player[id_player_data_acel] = 0.35;
@@ -183,14 +228,21 @@ function scr_player_init()
 	player[id_player_data_attack_punish] = 12;
 	player[id_player_data_runstop_timer] = 24;
 	
+	player[id_player_data_shoot_timer] = 12;
+	player[id_player_data_block_timer] = 20;
+	
+	player[id_player_data_shoot_releaseframe] = 1;
+	
 	player_attack_timer = 0;
 	player_attack_performing = 0;
 	player_attack_punish_timer = 0;
 	player_attack_hit = false;
 	
 	player_roll_timer = 0;
-	
 	player_runstop_timer = 0;
+	player_shoot_timer = 0;
+	player_shoot_release = false;
+	player_block_timer = 0;
 	
 	player_state = "idle";
 	player_facedir = "down";
