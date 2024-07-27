@@ -32,6 +32,17 @@ function scr_player_proj(_phase)
 					break;
 				}
 			}
+			with (obj_enemy)
+			{
+				if (scr_tool_col_circlecircle(other.x,other.y,other.radius,x,y,12) == true)
+				{
+					instance_destroy(other);
+					hp-=0.5
+					if (hp <= 0) { instance_destroy(); }
+					scr_combat_force(0,id,1.25,other.dir,ctl.player[id_player_data_friction]);
+					break;
+				}
+			}
 			if (alarm[0] == -1)
 			{
 				image_alpha-=0.2;

@@ -89,4 +89,22 @@ function scr_game_init()
 	config_music_vol = 0.1;
 	config_sfx_vol = 1;
 	audio_play_sound(msc_test1,1,true,0.15*config_music_vol);
+	gamepad_active = noone;
+	
+	application_surface_draw_enable(false);
+	// Create ppfx system.
+	ppfx_id = new PPFX_System();
+
+	// Create profile with all effects.
+	var effects = [
+	    new FX_Panorama(true, 0.10, 0.10),
+		new FX_Bloom(true, 4, 0.40, 0.80, c_white, 0, false, undefined, 2.50, 1, false, 1, false, false),
+		//new FX_Mist(true, 0.35, 0.69, 1, 0.20, 0, 0.80, 0.57, 0.80, c_white, 0, 0, undefined, [0, 0], 0, 270),
+		new FX_NoiseGrain(true, 0.12, 0, 0.50, true, true, undefined),
+	];
+	main_profile = new PPFX_Profile("Main", effects);
+
+	// Load profile, so all effects will be used.
+	ppfx_id.ProfileLoad(main_profile);
+	debug_ui = new PPFX_DebugUI(ppfx_id);
 }

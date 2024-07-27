@@ -3,6 +3,15 @@
 function scr_player_movement()
 {
 	player_mspd = player[id_player_data_mspd];
+	if ( gamepad_axis_value(gamepad_active, keygp_left) >= key_stick_tilt_run_threshold || gamepad_axis_value(gamepad_active, keygp_left) <= -key_stick_tilt_run_threshold ||
+		gamepad_axis_value(gamepad_active, keygp_up) >= key_stick_tilt_run_threshold || gamepad_axis_value(gamepad_active, keygp_up) <= -key_stick_tilt_run_threshold )
+	{
+		key_stick_tilt_run = true;
+	}
+	else
+	{
+		key_stick_tilt_run = false;
+	}
 	
 	#region TIMERS
 	if (player_runstop_timer > 0)
@@ -51,29 +60,59 @@ function scr_player_movement()
 	
 	#region ACTION
 	////ROLLING
-	var _hmove = false;
-	// Horizontal movement
-	if (key[id_key_left])
+	if (gamepad_active == noone)
 	{
-	    _hmove = true;
-	    player[id_player_data_hsp] = max(player[id_player_data_hsp] - player[id_player_data_acel], -player_mspd);
+		var _hmove = false;
+		// Horizontal movement
+		if (key[id_key_left])
+		{
+		    _hmove = true;
+		    player[id_player_data_hsp] = max(player[id_player_data_hsp] - player[id_player_data_acel], -player_mspd);
+		}
+		else if (key[id_key_right])
+		{
+		    _hmove = true;
+		    player[id_player_data_hsp] = min(player[id_player_data_hsp] + player[id_player_data_acel], player_mspd);
+		}
+		var _vmove = false;
+		// Vertical movement
+		if (key[id_key_up])
+		{
+		    _vmove = true;
+		    player[id_player_data_vsp] = max(player[id_player_data_vsp] - player[id_player_data_acel], -player_mspd);
+		}
+		else if (key[id_key_down])
+		{
+		    _vmove = true;
+		    player[id_player_data_vsp] = min(player[id_player_data_vsp] + player[id_player_data_acel], player_mspd);
+		}
 	}
-	else if (key[id_key_right])
+	else
 	{
-	    _hmove = true;
-	    player[id_player_data_hsp] = min(player[id_player_data_hsp] + player[id_player_data_acel], player_mspd);
-	}
-	var _vmove = false;
-	// Vertical movement
-	if (key[id_key_up])
-	{
-	    _vmove = true;
-	    player[id_player_data_vsp] = max(player[id_player_data_vsp] - player[id_player_data_acel], -player_mspd);
-	}
-	else if (key[id_key_down])
-	{
-	    _vmove = true;
-	    player[id_player_data_vsp] = min(player[id_player_data_vsp] + player[id_player_data_acel], player_mspd);
+		var _hmove = false;
+	    var _vmove = false;
+    
+	    // Get horizontal and vertical axis values from the gamepad
+	    var h_axis = gamepad_axis_value(gamepad_active, gp_axislh);
+	    var v_axis = gamepad_axis_value(gamepad_active, gp_axislv);
+
+	    // Horizontal movement
+	    if (abs(h_axis) >= key_stick_tilt_deadzone) // Deadzone check
+	    {
+	        _hmove = true;
+	        //player[id_player_data_hsp] = clamp(h_axis * player[id_player_data_acel], -player_mspd, player_mspd);
+			if (h_axis <= 0) { player[id_player_data_hsp] = max(player[id_player_data_hsp] - player[id_player_data_acel], -player_mspd); }
+			else { player[id_player_data_hsp] = min(player[id_player_data_hsp] + player[id_player_data_acel], player_mspd); }
+		}
+
+	    // Vertical movement
+	    if (abs(v_axis) >= key_stick_tilt_deadzone) // Deadzone check
+	    {
+	        _vmove = true;
+	        //player[id_player_data_vsp] = clamp(v_axis * player[id_player_data_acel], -player_mspd, player_mspd);
+		    if (v_axis <= 0) { player[id_player_data_vsp] = max(player[id_player_data_vsp] - player[id_player_data_acel], -player_mspd); }
+		    else { player[id_player_data_vsp] = min(player[id_player_data_vsp] + player[id_player_data_acel], player_mspd); }
+		}
 	}
 	
 	var _friction = false;
@@ -116,37 +155,27 @@ function scr_player_movement()
     }
 	
 	#region SET DIRECTION
-	if (player[id_player_data_hsp] < 0 && player[id_player_data_vsp] < 0)
+	if (gamepad_active == noone)
 	{
-		player[id_player_data_dir] = 135;
+		var _pl_dir = scr_player_get_hvspeed_dir();
+		if (_pl_dir != -1) { if (_blocking == false) { player_dir = _pl_dir; } }
+		if (_blocking == false) { player_sprite_dir = player_dir; }
 	}
-	else if (player[id_player_data_hsp] > 0 && player[id_player_data_vsp] < 0)
+	else
 	{
-		player[id_player_data_dir] = 45;
-	}
-	else if (ctl.player[id_player_data_hsp] < 0 && player[id_player_data_vsp] > 0)
-	{
-		player[id_player_data_dir] = 225;
-	}
-	else if (player[id_player_data_hsp] > 0 && player[id_player_data_vsp] > 0)
-	{
-		player[id_player_data_dir] = 315;
-	}
-	else if (player[id_player_data_hsp] < 0)
-	{
-		player[id_player_data_dir] = 180;
-	}
-	else if (player[id_player_data_hsp] > 0)
-	{
-		player[id_player_data_dir] = 0;
-	}
-	else if (player[id_player_data_vsp] < 0)
-	{
-		player[id_player_data_dir] = 90;
-	}
-	else if ( player[id_player_data_vsp] > 0)
-	{
-		player[id_player_data_dir] = 270;
+		var h_axis = gamepad_axis_value(gamepad_active, gp_axislh);
+		var v_axis = gamepad_axis_value(gamepad_active, gp_axislv);
+		// Deadzone check
+		if (abs(h_axis) >= key_stick_tilt_deadzone || abs(v_axis) >= key_stick_tilt_deadzone)
+		{
+		    // Calculate the angle in degrees
+		    var angle = point_direction(0, 0, h_axis, v_axis); // v_axis is negated to align with the screen coordinates
+		    // Set the player's direction
+			if (_blocking == false) { player_dir = angle; }
+			show_debug_message(angle)
+		}
+		var _pl_spr_dir = scr_player_get_hvspeed_dir();
+		if (_pl_spr_dir != -1) { if (_blocking == false) { player_sprite_dir = _pl_spr_dir; } }
 	}
 	#endregion
 	
@@ -161,12 +190,23 @@ function scr_player_movement()
 		}
 	}
 	
-	if (_rolling == false && _attacking == false && _shooting == false && _blocking == false && key[id_key_interact] == true)
+	if (_rolling == false /*&& _attacking == false && _shooting == false && _blocking == false*/ && key[id_key_interact] == true)
 	{
 		player_roll_timer = player[id_player_data_roll_duration];
 		obj_player.image_index = 0;
-		scr_combat_force(0,obj_player,3,player[id_player_data_dir],player[id_player_data_friction]);
+		scr_combat_force(0,obj_player,3,player_dir,player[id_player_data_friction]);
 		scr_sfx_play(ctl.player[id_player_data_snds_roll]);
+		
+		player_shoot_timer = 0;
+		player_shoot_release = 0;
+		
+		player_attack_punish_timer = 0;
+		player_attack_timer = 0;
+		player_attack_performing = 0;
+		player_attack_hit = false;
+		
+		player_block_timer = 0;
+		
 	}
 	if ( _rolling == false && _shooting == false && _blocking == false && key[id_key_assign] == true && player_attack_punish_timer == 0) 
 	{
@@ -222,7 +262,7 @@ function scr_player_movement()
 				player_attack_timer = ctl.player[id_player_data_attack1_duration];
 				player_attack_hit = false;
 				obj_player.image_index = 0;
-				scr_combat_force(0, obj_player, 1.5, player[id_player_data_dir], player[id_player_data_friction]);
+				scr_combat_force(0, obj_player, 1.5, player_dir, player[id_player_data_friction]);
 				scr_sfx_play(ctl.player[id_player_data_snds_attack1]);
 			}
 			else if (player_attack_performing == 1)
@@ -230,7 +270,7 @@ function scr_player_movement()
 				player_attack_timer = ctl.player[id_player_data_attack1_duration];
 				player_attack_hit = false;
 				obj_player.image_index = 0;
-				scr_combat_force(0, obj_player, 1.5, player[id_player_data_dir], player[id_player_data_friction]);
+				scr_combat_force(0, obj_player, 1.5, player_dir, player[id_player_data_friction]);
 				scr_sfx_play(ctl.player[id_player_data_snds_attack2]);
 			}
 		}
@@ -255,7 +295,7 @@ function scr_player_movement()
 		if (obj_player.image_index >= player[id_player_data_shoot_releaseframe] && player_shoot_release == false)
 		{
 			player_shoot_release = true;
-			scr_player_proj(0,player[id_player_data_dir]);
+			scr_player_proj(0,player_dir);
 		}
 	}
 	
@@ -268,7 +308,7 @@ function scr_player_movement()
 				if (obj_player.image_index >= player[id_player_data_attack1_hitframe])
 				{
 					player_attack_hit = true;
-					scr_player_attack(obj_player.x,obj_player.y,ctl.player[id_player_data_dir],80,48);
+					scr_player_attack(obj_player.x,obj_player.y,player_dir,80,48);
 				}
 			}
 			else if (player_attack_performing == 1)
@@ -276,7 +316,7 @@ function scr_player_movement()
 				if (obj_player.image_index >= player[id_player_data_attack2_hitframe])
 				{
 					player_attack_hit = true;
-					scr_player_attack(obj_player.x,obj_player.y,ctl.player[id_player_data_dir],80,48);
+					scr_player_attack(obj_player.x,obj_player.y,player_dir,80,48);
 				}
 			}
 		}
@@ -299,7 +339,7 @@ function scr_player_movement()
 	{
 	    x += ctl.player[id_player_data_hsp];
 	    y += ctl.player[id_player_data_vsp];
-		switch (ctl.player[id_player_data_dir])
+		switch (ctl.player_sprite_dir)
 		{
 			case 0:
 				_spr_stop = ctl.player[id_player_data_spr_runstop_right]; 

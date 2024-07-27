@@ -88,35 +88,34 @@ function scr_player_init()
 	#macro id_player_data_friction 74
 	#macro id_player_data_hsp 75
 	#macro id_player_data_vsp 76
-	#macro id_player_data_dir 77
-	#macro id_player_data_roll_duration 78
+	#macro id_player_data_roll_duration 77
 	
-	#macro id_player_data_attack_punish 79
+	#macro id_player_data_attack_punish 78
 	
-	#macro id_player_data_attack1_duration 80
-	#macro id_player_data_attack1_combothreshold_min 81
-	#macro id_player_data_attack1_combothreshold_max 82
-	#macro id_player_data_attack1_hitframe 83
+	#macro id_player_data_attack1_duration 79
+	#macro id_player_data_attack1_combothreshold_min 80
+	#macro id_player_data_attack1_combothreshold_max 81
+	#macro id_player_data_attack1_hitframe 82
 	
-	#macro id_player_data_attack2_duration 84
-	#macro id_player_data_attack2_combothreshold_min 85
-	#macro id_player_data_attack2_combothreshold_max 86
-	#macro id_player_data_attack2_hitframe 87
+	#macro id_player_data_attack2_duration 83
+	#macro id_player_data_attack2_combothreshold_min 84
+	#macro id_player_data_attack2_combothreshold_max 85
+	#macro id_player_data_attack2_hitframe 86
 	
-	#macro id_player_data_snds_step 88
-	#macro id_player_data_snds_attack1 89
-	#macro id_player_data_snds_attack2 90
-	#macro id_player_data_snds_roll 91
-	#macro id_player_data_snds_runstop 92
+	#macro id_player_data_snds_step 87
+	#macro id_player_data_snds_attack1 88
+	#macro id_player_data_snds_attack2 89
+	#macro id_player_data_snds_roll 90
+	#macro id_player_data_snds_runstop 91
 	
-	#macro id_player_data_runstop_timer 93
+	#macro id_player_data_runstop_timer 92
 	
-	#macro id_player_data_shoot_timer 94
-	#macro id_player_data_block_timer 95
-	#macro id_player_data_shoot_releaseframe 96
+	#macro id_player_data_shoot_timer 93
+	#macro id_player_data_block_timer 94
+	#macro id_player_data_shoot_releaseframe 95
 	
-	#macro id_player_data_snds_shoot 97
-	#macro id_player_data_snds_block 98
+	#macro id_player_data_snds_shoot 96
+	#macro id_player_data_snds_block 97
 	
 	player[id_player_data_spr_idle_down] = spr_player_idle_down;
 	player[id_player_data_spr_idle_downleft] = spr_player_idle_downleft;
@@ -212,7 +211,6 @@ function scr_player_init()
 	player[id_player_data_friction] = 0.1;
 	player[id_player_data_hsp] = 0;
 	player[id_player_data_vsp] = 0;
-	player[id_player_data_dir] = 0;
 	player[id_player_data_roll_duration] = 30;
 	
 	player[id_player_data_attack1_duration] = 22;
@@ -237,6 +235,9 @@ function scr_player_init()
 	player_attack_performing = 0;
 	player_attack_punish_timer = 0;
 	player_attack_hit = false;
+	
+	player_dir = 0;
+	player_sprite_dir = 0;
 	
 	player_roll_timer = 0;
 	player_runstop_timer = 0;

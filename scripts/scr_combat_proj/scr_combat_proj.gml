@@ -31,15 +31,45 @@ function scr_combat_proj(_phase)
 			y += lengthdir_y(mspd,dir);
 			if (duration > 0)
 			{
-				image_alpha=min(image_alpha+0.1,1);
-				if (scr_tool_col_circlecircle(x,y,radius,obj_player.x,obj_player.y,5) == true)
+				image_alpha = min(image_alpha + 0.1, 1);
+				if (scr_tool_col_circlecircle(x, y, radius, obj_player.x, obj_player.y, 5))
 				{
-					if (ctl.player_block_timer ==  0)
-					{
-						scr_combat_force(0,obj_player,2,dir,ctl.player[id_player_data_friction]);
-					}
-					destroy = true;
+				    var _block_dir = (ctl.player_dir + 360) mod 360;
+				    var _dir_to_proj = (point_direction(obj_player.x, obj_player.y, x, y) + 360) mod 360;
+				    var _block_radius = 90;
+				    var _half_block_radius = _block_radius * 0.5;
+
+				    if (ctl.player_block_timer == 0)
+				    {
+				        scr_combat_force(0, obj_player, 2, dir, ctl.player[id_player_data_friction]);
+				    }
+				    else
+				    {
+				        var min_block_angle = (_block_dir - _half_block_radius + 360) mod 360;
+				        var max_block_angle = (_block_dir + _half_block_radius + 360) mod 360;
+				        var is_blocking = false;
+
+				        if (min_block_angle < max_block_angle)
+				        {
+				            is_blocking = (_dir_to_proj >= min_block_angle) && (_dir_to_proj <= max_block_angle);
+				        }
+				        else
+				        {
+				            is_blocking = (_dir_to_proj >= min_block_angle) || (_dir_to_proj <= max_block_angle);
+				        }
+
+				        if (is_blocking)
+				        {
+				            ///BLOCK
+				        }
+				        else
+				        {
+				            scr_combat_force(0, obj_player, 2, dir, ctl.player[id_player_data_friction]);
+				        }
+				    }
+				    destroy = true;
 				}
+
 				duration--;
 			}
 			else

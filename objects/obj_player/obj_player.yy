@@ -11,7 +11,10 @@
     "name": "player",
     "path": "folders/Objects/player.yy",
   },
-  "parentObjectId": null,
+  "parentObjectId": {
+    "name": "obj_depth_parent",
+    "path": "objects/obj_depth_parent/obj_depth_parent.yy",
+  },
   "persistent": false,
   "physicsAngularDamping": 0.1,
   "physicsDensity": 0.5,

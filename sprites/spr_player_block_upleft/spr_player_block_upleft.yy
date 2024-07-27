@@ -4,7 +4,7 @@
   "name": "spr_player_block_upleft",
   "bbox_bottom": 49,
   "bbox_left": 22,
-  "bbox_right": 41,
+  "bbox_right": 39,
   "bbox_top": 21,
   "bboxMode": 0,
   "collisionKind": 1,

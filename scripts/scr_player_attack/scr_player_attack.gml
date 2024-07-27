@@ -19,4 +19,13 @@ function scr_player_attack(_xx,_yy,_dir,_cone_width,_cone_lenght)
 			}
 	    }
 	}
+	with (obj_enemy)
+	{
+		if (scr_tool_col_conecircle(_xx, _yy, _dir, _cone_width, _cone_lenght, x, y, 12) == true) 
+		{
+			hp--;
+			if (hp <= 0) { instance_destroy(); exit; }
+			scr_combat_force(0,id,3,_dir,ctl.player[id_player_data_friction]);
+		}
+	}
 }

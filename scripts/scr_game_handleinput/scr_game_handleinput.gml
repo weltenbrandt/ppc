@@ -32,12 +32,13 @@ function scr_game_handleinput()
 	}
 	// Gamepad input
 	var gp_num = gamepad_get_device_count();
+	gamepad_active = noone;
 	for (var i = 0; i < gp_num; i++) 
 	{
 	    if (gamepad_is_connected(i)) 
 		{
+			gamepad_active = i;
 			gamepad_set_axis_deadzone(i, key_stick_tilt_deadzone);
-			
 			if (gamepad_button_check(i, keygp_pad_left) == true
 			|| gamepad_axis_value(i, keygp_left) < -0.5)
 			{
@@ -62,20 +63,6 @@ function scr_game_handleinput()
 	            key[id_key_down] = true;
 			}
 	        else { key[id_key_down] = false; }
-			
-			if ( gamepad_axis_value(i, keygp_left) >= key_stick_tilt_run_threshold || gamepad_axis_value(i, keygp_left) <= -key_stick_tilt_run_threshold ||
-				 gamepad_axis_value(i, keygp_up) >= key_stick_tilt_run_threshold || gamepad_axis_value(i, keygp_up) <= -key_stick_tilt_run_threshold )
-				 {
-					 key_stick_tilt_run = true;
-				 }
-				 else
-				 {
-					 key_stick_tilt_run = false;
-				 }
-			show_debug_message(gamepad_axis_value(i, keygp_left));
-			show_debug_message(gamepad_axis_value(i, keygp_up));
-			// Set a reasonable dead zone
-			gamepad_set_axis_deadzone(i, 0.2);
 			
 	        key[id_key_interact] = gamepad_button_check_pressed(i, keygp_interact);
 	        key[id_key_cancel] = gamepad_button_check_pressed(i, keygp_cancel);
