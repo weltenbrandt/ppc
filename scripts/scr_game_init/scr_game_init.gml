@@ -98,7 +98,7 @@ function scr_game_init()
 	// Create profile with all effects.
 	var effects = [
 	    new FX_Panorama(true, 0.10, 0.10),
-		new FX_Bloom(true, 4, 0.40, 0.80, c_white, 0, false, undefined, 2.50, 1, false, 1, false, false),
+		new FX_Bloom(true, 4, 0.45, 0.75, c_white, 0, false, undefined, 2.50, 1, false, 1, false, false),
 		//new FX_Mist(true, 0.35, 0.69, 1, 0.20, 0, 0.80, 0.57, 0.80, c_white, 0, 0, undefined, [0, 0], 0, 270),
 		new FX_NoiseGrain(true, 0.12, 0, 0.50, true, true, undefined),
 	];
